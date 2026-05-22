@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snyk-demo-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snyk-demo-app
+  template:
+    metadata:
+      labels:
+        app: snyk-demo-app
+    spec:
+      containers:
+      - name: app
+        image: node:14-alpine
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snyk-demo-app
+spec:
+  selector:
+    app: snyk-demo-app
+  ports:
+  - port: 80
+    targetPort: 3000
