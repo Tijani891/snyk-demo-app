@@ -1,3 +1,4 @@
+const validator = require('validator');
 const express = require('express');
 const app = express();
 app.get('/greet', (req, res) => {
