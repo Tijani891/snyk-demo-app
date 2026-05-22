@@ -21,9 +21,14 @@ spec:
           runAsUser: 0
         ports:
         - containerPort: 3000
-        env:
-        - name: NODE_ENV
-          value: production
+        volumeMounts:
+        - name: host-volume
+          mountPath: /host
+        resources: {}
+      volumes:
+      - name: host-volume
+        hostPath:
+          path: /var/run/docker.sock
 ---
 apiVersion: v1
 kind: Service
