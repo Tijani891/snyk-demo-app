@@ -9,12 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t test-image .
       - name: Snyk Container Scan
         uses: snyk/actions/docker@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: node:20-alpine
+          image: test-image
           args: --severity-threshold=high
 
   snyk-iac:
