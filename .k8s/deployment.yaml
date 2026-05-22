@@ -13,36 +13,16 @@ spec:
       labels:
         app: snyk-demo-app
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
       containers:
       - name: app
-        image: node:20-alpine
+        image: node:14-alpine
         securityContext:
-          allowPrivilegeEscalation: false
-          privileged: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-            - ALL
+          privileged: true
+          runAsUser: 0
         ports:
         - containerPort: 3000
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: snyk-demo-app
-spec:
-  selector:
-    app: snyk-demo-app
-  ports:
-  - port: 80
-    targetPort: 3000
+        resources: {}
+      volumes:
+      - name: host-volume
+        hostPath:
+          path: /var/run/docker.sock
