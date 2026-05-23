@@ -28,4 +28,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
+          file: .k8s/
           args: --severity-threshold=high
